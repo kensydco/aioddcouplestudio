@@ -102,9 +102,11 @@ Every episode MUST follow this four-beat structure:
 ---
 
 ## Channel Handles
-- YouTube: @AIOddCoupleStudio
+- YouTube: @aioddcouple
 - TikTok: @aioddcouple
-- Instagram: @aioddcouplestudio
+- Instagram: @aioddcouple
+
+> **Official Handle (all platforms):** `@aioddcouple`
 
 ---
 

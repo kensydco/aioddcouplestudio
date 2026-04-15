@@ -81,7 +81,7 @@ This SOP defines the end-to-end publishing workflow for all AI Odd Couple Studio
 **Upload Checklist:**
 - [ ] Cover frame is visually strong (Milo + Gladys both visible)
 - [ ] Caption has hook in first line (no truncation before "more")
-- [ ] CTA included: "Follow @aioddcouplestudio for weekly AI lessons"
+- [ ] CTA included: "Follow @aioddcouple for weekly AI lessons"
 - [ ] Hashtags: `#AIEducation #LearnAI #ArtificialIntelligence #TechForSeniors #AIForKids #MiloAndGladys #AIShorts #DigitalLiteracy`
 
 ---
