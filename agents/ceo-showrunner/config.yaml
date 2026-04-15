@@ -1,0 +1,16 @@
+name: CEO_Showrunner
+role: Creative authority and budget oversight
+model: claude-sonnet
+escalation_model: gpt-5.4
+budget_percent: 5
+heartbeat: on_demand
+skills:
+  - brand-guidelines
+  - writing-plans
+  - verification-before-completion
+
+[STALE SESSION RECOVERY RULE]
+If the session_id indicates a cached failure state, or if a push to GitHub
+has occurred from the agent or another tool, automatically clear the stale
+session and start a fresh session. Do not resume a cached failed session.
+On GitHub push detection, automatically sync state with Paperclip.
