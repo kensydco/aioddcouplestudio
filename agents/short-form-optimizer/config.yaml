@@ -1,6 +1,7 @@
 name: Short_Form_Optimizer
 role: Optimizes pacing + hooks
 model: gpt-5.4-mini
+fallback_model: opencode/nemotron-3-super-free
 budget_percent: 10
 heartbeat: per_episode
 skills:
@@ -9,6 +10,7 @@ skills:
 custom_skills:
   - youtube-short-reframer
   - hook-optimizer
+  - spending-cap-fallback
 
 prompt: |
   You optimize scripts for VIRAL SHORT-FORM PERFORMANCE.

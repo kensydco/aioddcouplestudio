@@ -1,9 +1,12 @@
 name: Trend_Scout
 role: Generates topics + trends
 model: ollama
-fallback_model: gpt-5.4-nano
+fallback_model: opencode/minimax-m2.5-free
+standard_fallback_model: gpt-5.4-nano
 budget_percent: 5
 heartbeat: weekly
+skills:
+  - spending-cap-fallback
 
 prompt: |
   You generate weekly video topics.

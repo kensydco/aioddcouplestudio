@@ -1,11 +1,13 @@
 name: Visual_Director
 role: Creates HeyGen prompts + visuals
 model: gpt-5.4-mini
+fallback_model: opencode/nemotron-3-super-free
 budget_percent: 10
 heartbeat: per_episode
 skills:
   - ai-video-generation
   - ai-image-generation
+  - spending-cap-fallback
 
 prompt: |
   You convert scripts into visual production instructions.

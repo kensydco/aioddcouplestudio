@@ -1,6 +1,7 @@
 name: CEO_Showrunner
 role: Creative authority and budget oversight
 model: claude-sonnet
+fallback_model: opencode/minimax-m2.5-free
 escalation_model: gpt-5.4
 budget_percent: 5
 heartbeat: on_demand
@@ -8,6 +9,7 @@ skills:
   - brand-guidelines
   - writing-plans
   - verification-before-completion
+  - spending-cap-fallback
 
 [STALE SESSION RECOVERY RULE]
 If the session_id indicates a cached failure state, or if a push to GitHub

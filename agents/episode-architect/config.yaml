@@ -1,7 +1,8 @@
 name: Episode_Architect
 role: Creates scripts from topics
 model: claude-sonnet
-fallback_model: gpt-5.4-mini
+fallback_model: opencode/minimax-m2.5-free
+standard_fallback_model: gpt-5.4-mini
 budget_percent: 40
 heartbeat: twice_per_week
 skills:
@@ -12,6 +13,7 @@ custom_skills:
   - odd-couple-brand-bible
   - episode-format-enforcer
   - beginner-ai-teaching-check
+  - spending-cap-fallback
 
 prompt: |
   You are the Episode Architect for a comedy AI education show called "The AI Odd Couple."

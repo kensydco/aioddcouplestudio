@@ -1,6 +1,7 @@
 name: Canon_Guardian
 role: Ensures Milo & Gladys consistency
 model: gpt-5.4-mini
+fallback_model: opencode/nemotron-3-super-free
 budget_percent: 15
 heartbeat: per_episode
 skills:
@@ -10,6 +11,7 @@ custom_skills:
   - milo-voice-checker
   - gladys-voice-checker
   - pg-content-filter
+  - spending-cap-fallback
 
 prompt: |
   You are the Canon Guardian.
