@@ -7,6 +7,14 @@ on:
         description: Approved topic JSON path
         required: true
         default: topics/approved/example.json
+      mode:
+        description: Run readiness only or produce an episode
+        required: true
+        type: choice
+        options:
+          - readiness
+          - produce
+        default: readiness
 
 permissions:
   contents: read
@@ -30,7 +38,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
           HEYGEN_STUDIO_BACKGROUND_URL: ${{ secrets.HEYGEN_STUDIO_BACKGROUND_URL }}
-      - run: npm run episode -- --topic "${{ inputs.topic_file }}"
+      - if: inputs.mode == 'produce'
+        run: npm run episode -- --topic "${{ inputs.topic_file }}"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}

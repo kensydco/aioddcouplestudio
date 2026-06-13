@@ -29,6 +29,22 @@ for (const name of ["OPENAI_API_KEY", "HEYGEN_API_KEY", "HEYGEN_STUDIO_BACKGROUN
   console.log(`${ok ? "PASS" : "BLOCKED"} secret ${name}`);
   failed ||= !ok;
 }
+if (process.env.OPENAI_API_KEY) {
+  const response = await fetch("https://api.openai.com/v1/models", { headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` } });
+  console.log(`${response.ok ? "PASS" : "BLOCKED"} provider OpenAI authentication`);
+  failed ||= !response.ok;
+}
+if (process.env.HEYGEN_API_KEY) {
+  const response = await fetch("https://api.heygen.com/v2/avatars", { headers: { "X-Api-Key": process.env.HEYGEN_API_KEY } });
+  console.log(`${response.ok ? "PASS" : "BLOCKED"} provider HeyGen authentication`);
+  failed ||= !response.ok;
+}
+if (process.env.HEYGEN_STUDIO_BACKGROUND_URL) {
+  const response = await fetch(process.env.HEYGEN_STUDIO_BACKGROUND_URL, { method: "HEAD" });
+  const ok = response.ok && response.headers.get("content-type")?.startsWith("image/");
+  console.log(`${ok ? "PASS" : "BLOCKED"} provider HeyGen background URL`);
+  failed ||= !ok;
+}
 for (const cmd of [["node", ["--version"]], ["ffmpeg", ["-version"]], ["ffprobe", ["-version"]]]) {
   const result = spawnSync(cmd[0], cmd[1], { stdio: "ignore" });
   console.log(`${result.status === 0 ? "PASS" : "BLOCKED"} runtime ${cmd[0]}`);
