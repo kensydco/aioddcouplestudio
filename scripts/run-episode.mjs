@@ -162,6 +162,9 @@ if (!args["dry-run"]) {
   assert(manifest.fullScreenEducationGraphicsSeconds <= MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, "Full-screen educational graphics exceed the 8-second maximum.");
   manifest.workflowState = "composing";
   await writeJson(path.join(episodeDir, "episode-manifest.json"), manifest);
+  await fs.cp(path.join(episodeDir, "assets"), path.join(episodeDir, "composition", "assets"), { recursive: true });
+  await ensureDir(path.join(episodeDir, "composition", "assets", "branding"));
+  await fs.copyFile(path.join(ROOT, "assets", "branding", "logo.png"), path.join(episodeDir, "composition", "assets", "branding", "logo.png"));
   const escape = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
   let cursor = 0;
   const media = primaryClips.map((clip, index) => {
@@ -170,10 +173,10 @@ if (!args["dry-run"]) {
     cursor += clip.duration;
     const reaction = manifest.generatedClips.find((item) => item.sceneId === clip.sceneId && item.role === "reaction");
     const videoClass = reaction ? `speaker split ${clip.character}` : "speaker";
-    const reactionVideo = reaction ? `<video id="r${index}" class="clip speaker split ${reaction.character}" data-start="${start}" data-duration="${clip.duration}" data-track-index="1" src="../${reaction.path}" muted playsinline></video>` : "";
-    return `<video id="v${index}" class="clip ${videoClass}" data-start="${start}" data-duration="${clip.duration}" data-track-index="0" src="../${clip.path}" muted playsinline></video>
+    const reactionVideo = reaction ? `<video id="r${index}" class="clip speaker split ${reaction.character}" data-start="${start}" data-duration="${clip.duration}" data-track-index="1" src="${reaction.path}" muted playsinline></video>` : "";
+    return `<video id="v${index}" class="clip ${videoClass}" data-start="${start}" data-duration="${clip.duration}" data-track-index="0" src="${clip.path}" muted playsinline></video>
 ${reactionVideo}
-<audio id="a${index}" class="clip" data-start="${start}" data-duration="${clip.duration}" data-track-index="10" src="../${clip.path}" data-volume="1"></audio>
+<audio id="a${index}" class="clip" data-start="${start}" data-duration="${clip.duration}" data-track-index="10" src="${clip.path}" data-volume="1"></audio>
 <div id="c${index}" class="clip caption ${clip.character}" data-start="${start}" data-duration="${clip.duration}" data-track-index="${20 + index}">${escape(scene.line)}</div>`;
   }).join("\n");
   const html = `<!doctype html><html><head><meta charset="utf-8"><style>
@@ -183,7 +186,9 @@ ${reactionVideo}
 .logo{position:absolute;width:220px;top:250px;left:430px}.card{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:100px;text-align:center;font-size:88px;font-weight:800;background:#1C1C20}
 </style></head><body><div id="root" data-composition-id="episode" data-start="0" data-width="1080" data-height="1920">
 ${media}
-<img class="clip logo" data-start="0" data-duration="${finalDuration}" data-track-index="5" src="../../../assets/branding/logo.png">
+<img id="episode-logo" class="clip logo" data-start="0" data-duration="${finalDuration}" data-track-index="5" src="assets/branding/logo.png">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>window.__timelines=window.__timelines||{};window.__timelines.episode=gsap.timeline({paused:true});</script>
 </div></body></html>`;
   await fs.writeFile(path.join(episodeDir, "composition", "index.html"), html);
   const run = (command, commandArgs) => {
