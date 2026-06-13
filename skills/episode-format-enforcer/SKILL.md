@@ -95,11 +95,11 @@ Run this before approving any script:
 - [ ] Demo or practical application is included?
 - [ ] Episode ends with warmth and unity?
 - [ ] Milo's catchphrase OR Harold callback in the resolution?
-- [ ] Total estimated runtime is 60–90 seconds?
+- [ ] Total estimated runtime is 28–32 seconds?
 - [ ] All content passes PG filter?
 
 ---
 
 ## Timing Reference
 
-At average speaking pace (150 words/minute), a 60–90 second episode = **150–225 words of dialogue**. Scripts should target 175–200 words for comfortable pacing with visual pauses.
+Scripts must contain **65–80 spoken words** across no more than six dialogue turns.

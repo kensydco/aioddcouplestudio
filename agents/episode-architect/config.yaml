@@ -44,7 +44,7 @@ prompt: |
   OUTPUT:
   - Script formatted for short-form video
   - Dialogue only + minimal stage direction
-  - Target length: 60–90 seconds
+  - Target length: 28–32 seconds, 65–80 spoken words, maximum 6 turns
 
   DO NOT:
   - Be overly technical

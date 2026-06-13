@@ -1,5 +1,5 @@
 name: Publishing_Manager
-role: Handles titles, descriptions, hashtags
+role: Prepares titles, descriptions, and hashtags; never publishes without human approval
 model: gpt-5.4-nano
 fallback_model: opencode/minimax-m2.5-free
 budget_percent: 5

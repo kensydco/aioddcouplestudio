@@ -28,7 +28,7 @@ Scale the content factory to produce daily viral content across all major platfo
 **Ad Revenue and Brand Sponsorships from Viral Short-Form Content**
 | Tier | Price | What's Included |
 |---|---|---|
-| Short-Form Video | Free | 60-90 second educational comedy |
+| Short-Form Video | Free | 30-second educational comedy |
 | Sponsorships | Custom | Brand integration in episodes |
 
 Any changes to the monetization strategy or introduction of new revenue streams require founder approval.
@@ -61,7 +61,7 @@ The company relies on organic, algorithmic reach through high-retention short-fo
 
 ## Section: Product Direction
 The core product is live and actively producing content.
-- **Now:** 2 episodes/week (60-90 sec) featuring Milo and Gladys.
+- **Now:** Up to 4 review-ready 30-second episodes/week featuring Milo and Gladys.
 - **Short-term:** Optimize hook retention and streamline HeyGen visual production.
 - **Medium-term:** Expand trend coverage and refine automated publishing.
 - **Long-term:** Introduce new characters or extended formats.
@@ -102,7 +102,7 @@ The CEO provides creative authority and budget oversight. The CoS acts as the op
 ### 1. Autonomous (No founder approval needed)
 - Commission research tasks
 - Hire Chief of Staff (CoS)
-- Publish 2 episodes per week across all platforms
+- Produce review-ready episodes; publishing always requires founder approval
 - Create tasks and assign custom skills to agents
 - Respond to comments in character (via Comment Agent)
 - Run A/B tests on thumbnails and hooks

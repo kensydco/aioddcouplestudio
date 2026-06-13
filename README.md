@@ -1,6 +1,6 @@
 # AI Odd Couple Studio
 
-**A fully automated short-form AI comedy education content factory.**
+**A hosted short-form AI comedy education production studio.**
 
 ## Characters
 - **Milo** — 8-year-old chaotic AI genius
@@ -22,7 +22,9 @@ Produce 2 high-retention, funny, beginner-friendly AI education videos per week 
 | Comment_Agent | In-character comment replies | gpt-5.4-nano |
 
 ## Pipeline
-`Trend_Scout → Episode_Architect → Canon_Guardian → Short_Form_Optimizer → Visual_Director → Publishing_Manager → Auto Publish → Comment_Agent (optional)`
+`Approved Topic → Script → Canon QA → HeyGen → HyperFrames → awaiting_approval`
+
+The production runner never publishes. See `PRODUCTION.md`.
 
 ## Key Files
 - `VISION.md` — Company constitution

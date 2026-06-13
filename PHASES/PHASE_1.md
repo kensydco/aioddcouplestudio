@@ -48,7 +48,7 @@
 | Wednesday | Canon_Guardian | Validate scripts |
 | Wednesday | Short_Form_Optimizer | Tighten pacing and hooks |
 | Thursday | Visual_Director | Create HeyGen scene prompts |
-| Friday | Publishing_Manager | Prep metadata + auto-publish |
+| Friday | Publishing_Manager | Prep metadata and route for human approval |
 
 ---
 

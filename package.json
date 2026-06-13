@@ -1,0 +1,21 @@
+{
+  "name": "ai-odd-couple-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "episode": "node scripts/run-episode.mjs",
+    "readiness": "node scripts/readiness.mjs",
+    "test": "node --test",
+    "lint:template": "npx hyperframes lint templates/ai-odd-couple-episode"
+  },
+  "dependencies": {
+    "openai": "^5.23.2"
+  },
+  "devDependencies": {
+    "hyperframes": "0.6.95"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

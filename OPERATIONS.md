@@ -12,8 +12,8 @@ The Trend Scout generates 10 topics per week (trending + evergreen) with a hook 
 **Gate 2 — Plan (Episode Architect + Canon Guardian + Short Form Optimizer)**
 The Episode Architect drafts the script from the approved topic. The Canon Guardian validates the script against the character checklist. The Short Form Optimizer tightens pacing and strengthens the hook. No execution begins until all three approve.
 
-**Gate 3 — Execute (Visual Director + Publishing Manager → Auto Publish)**
-The Visual Director converts the approved script into HeyGen scene prompts. The Publishing Manager prepares 3 title options, a description, 10–15 hashtags, and a hook caption. The content is then auto-published to YouTube Shorts, TikTok, and Instagram Reels.
+**Gate 3 — Execute (Visual Director + Production Agent → Human Review)**
+The production agent creates HeyGen performances and a HyperFrames review render, then stops at `awaiting_approval`. Publishing is outside the production agent and always requires the existing human approval guard.
 
 ---
 
@@ -26,7 +26,7 @@ The Visual Director converts the approved script into HeyGen scene prompts. The 
 | Wednesday | Canon_Guardian | Validate scripts |
 | Wednesday | Short_Form_Optimizer | Tighten pacing |
 | Thursday | Visual_Director | Create HeyGen prompts |
-| Friday | Publishing_Manager | Prep metadata + auto-publish |
+| Friday | Publishing_Manager | Prep metadata; no publishing before human approval |
 | Daily (Optional) | Comment_Agent | Reply to comments in character |
 
 ---
