@@ -16,13 +16,13 @@ Two AI-generated co-hosts from opposite ends of life explain one practical AI co
 
 ## 3. Educational objective
 
-Every episode delivers **exactly one** useful, correct takeaway a complete beginner can act on or remember. Simplify aggressively, but never into something false. If a concept can't be made accurate in 30 seconds, pick a smaller piece of it.
+Every episode delivers **exactly one** useful, correct takeaway a complete beginner can act on or remember. Simplify aggressively, but never into something false. If a concept can't be made accurate within 45 seconds, pick a smaller piece of it.
 
 **The two-lens rule:** every concept is explained two different ways — Milo's (toys, games, snacks, Mr. Whiskers) and Gladys's (cooking, knitting, her old switchboard job, Harold). If neither lens can carry it, the topic is too big for one episode.
 
-## 4. Recurring episode structure (30 seconds)
+## 4. Recurring episode structure (up to 45 seconds)
 
-Target **65–80 spoken words**, **28–32 seconds**, **max 6 dialogue turns**.
+Target **65–80 spoken words**, **28–45 seconds**, **max 6 dialogue turns**.
 
 | Time | Beat |
 |------|------|
@@ -46,8 +46,18 @@ Default beat: **Milo runs ahead with an over-excited, oversimplified take; Glady
 
 **Required per episode:**
 - One **united-front moment** where they agree.
+- Animated Milo and Gladys visibly together in at least one scene.
 - One Harold reference from Gladys.
 - One Milo analogy involving a toy, game, snack, or Mr. Whiskers.
+
+## 5A. Production efficiency rules
+
+- No music. Short sound effects are allowed.
+- No standalone intro or outro until the episode format is refined.
+- Every spoken line is delivered by an animated locked character performance.
+- Full-screen educational graphics that replace the characters may total no more than 8 seconds. Overlays that leave the characters visible do not count.
+- Final duration may be up to 45 seconds. Extra time is for natural animated interaction and pauses, not additional concepts or filler.
+- Production-process refinements must update `skills/ai-odd-couple-video-production/SKILL.md`, relevant source-of-truth files, production code, and tests.
 
 ## 6. Humor boundaries
 
@@ -76,7 +86,7 @@ No links spoken aloud. No "smash that like button" tech-bro phrasing.
 - Real, named public figures portrayed as saying or doing things (no put-words-in-mouths).
 - Doom/fear framing ("AI will take all your jobs," "AI is sentient"). Keep it grounded and practical.
 - Crypto/NFT hype as endorsement (a confused running gag is fine; a buy-recommendation is not).
-- Anything that needs more than one concept to land in 30 seconds.
+- Anything that needs more than one concept to land within 45 seconds.
 
 ## 9. Accuracy & sourcing rules
 
@@ -103,7 +113,7 @@ It's great — not just done — when:
 - Both characters sound exactly like themselves.
 - There's a real laugh, not just a smile.
 - The concept is correct even though it's simple.
-- It feels like 30 seconds of warmth, not a lecture.
+- It feels brief, warm, and useful, not like a lecture.
 
 ---
 

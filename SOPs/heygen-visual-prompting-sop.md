@@ -141,10 +141,11 @@ NOTES FOR AVATAR:
 
 After generating individual character clips:
 1. Export both clips as MP4
-2. Assemble in editing software: alternating cuts per beat
+2. Assemble alternating cuts per beat, with at least one split-screen interaction showing animated Milo and Gladys together
 3. Add captions (auto-generated, then reviewed)
-4. Add subtle background music at -20dB (non-copyrighted)
-5. Export final at 1080 × 1920, MP4, H.264
+4. Use no music and no standalone intro/outro
+5. Keep full-screen educational graphics that replace the characters to no more than 8 seconds total
+6. Export final at 1080 × 1920, MP4, H.264
 
 ---
 
@@ -161,6 +162,10 @@ Before approving any HeyGen output:
 - [ ] Scene setting is correct (Milo = bedroom, Gladys = armchair)
 - [ ] Final assembled video is 60–90 seconds
 - [ ] Captions are accurate and readable
+- [ ] Every spoken line uses an animated character performance
+- [ ] Animated Milo and Gladys appear together in at least one scene
+- [ ] No music or standalone intro/outro
+- [ ] Full-screen educational graphics replacing characters total 8 seconds or less
 
 ---
 

@@ -28,7 +28,7 @@ Scale the content factory to produce daily viral content across all major platfo
 **Ad Revenue and Brand Sponsorships from Viral Short-Form Content**
 | Tier | Price | What's Included |
 |---|---|---|
-| Short-Form Video | Free | 30-second educational comedy |
+| Short-Form Video | Free | Educational comedy up to 45 seconds |
 | Sponsorships | Custom | Brand integration in episodes |
 
 Any changes to the monetization strategy or introduction of new revenue streams require founder approval.
@@ -61,7 +61,7 @@ The company relies on organic, algorithmic reach through high-retention short-fo
 
 ## Section: Product Direction
 The core product is live and actively producing content.
-- **Now:** Up to 4 review-ready 30-second episodes/week featuring Milo and Gladys.
+- **Now:** Up to 4 review-ready episodes/week featuring Milo and Gladys, each no longer than 45 seconds.
 - **Short-term:** Optimize hook retention and streamline HeyGen visual production.
 - **Medium-term:** Expand trend coverage and refine automated publishing.
 - **Long-term:** Introduce new characters or extended formats.

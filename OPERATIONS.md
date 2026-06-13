@@ -15,6 +15,11 @@ The Episode Architect drafts the script from the approved topic. The Canon Guard
 **Gate 3 — Execute (Visual Director + Production Agent → Human Review)**
 The production agent creates HeyGen performances and a HyperFrames review render, then stops at `awaiting_approval`. Publishing is outside the production agent and always requires the existing human approval guard.
 
+Production uses no music or standalone intro/outro. Every episode includes at
+least one animated Milo-and-Gladys interaction scene. Full-screen educational
+graphics that replace the characters are capped at eight seconds.
+Final episode duration may be up to 45 seconds.
+
 ---
 
 ## Weekly Calendar

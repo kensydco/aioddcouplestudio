@@ -55,9 +55,9 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 
 | Track | Mood | BPM | License | Path | Status |
 |-------|------|-----|---------|------|--------|
-| Episode bed | approved AI Odd Couple theme song | supplied by founder | approved for series use | `assets/music/episode-bed.mp3` | ✅ |
+| Episode bed | retained archive asset; prohibited in episode production | supplied by founder | do not use | `assets/music/episode-bed.mp3` | ⛔ |
 
-> Music must be cleared for commercial social use. Duck to ~20% under dialogue (see `VISUAL_STYLE.md` §10).
+> Music is prohibited in episode production. Sound effects remain allowed.
 
 ## 7. Sound effects
 
@@ -93,6 +93,7 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 |------|--------|----|
 | 2026-06 | Initial registry created; provider IDs locked | — |
 | 2026-06-13 | Approved supplied background, logos, theme song, and hosted runtime route | Codex |
+| 2026-06-13 | Prohibited music and intro/outro; required animated interaction scene; capped full-screen educational graphics at 8 seconds | Codex |
 
 ---
 

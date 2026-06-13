@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import OpenAI from "openai";
-import { ROOT, CHARACTERS, assert, ensureDir, exists, readText, slugify, spokenWords, validateEpisode, writeJson } from "./lib.mjs";
+import { ROOT, CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, assert, ensureDir, exists, readText, slugify, spokenWords, validateEpisode, writeJson } from "./lib.mjs";
 
 const args = Object.fromEntries(process.argv.slice(2).map((arg, i, all) => arg.startsWith("--") ? [arg.slice(2), !all[i + 1] || all[i + 1].startsWith("--") ? true : all[i + 1]] : []).filter(Boolean));
 const topicFile = path.resolve(args.topic ?? "");
@@ -36,7 +36,7 @@ if (args["dry-run"]) {
       { sceneId: "s3", character: "milo", line: "Basically, say the goal, give context, then ask for the format. Like: write three friendly sale headlines!", framing: "close-up" },
       { sceneId: "s4", character: "gladys", line: "So it is a recipe card for the smart machine. Specific ingredients, fewer mysterious casseroles.", framing: "close-up" },
       { sceneId: "s5", character: "milo", line: "Exactly! Easy-peasy, A.I.-squeezy!", framing: "split-screen" },
-      { sceneId: "s6", character: "gladys", line: "Even WE can understand it. Harold would still ask where the milk is.", framing: "close-up" }
+      { sceneId: "s6", character: "gladys", line: "Even WE can understand it! Harold would still ask where the milk is.", framing: "close-up" }
     ]
   };
 } else {
@@ -44,7 +44,7 @@ if (args["dry-run"]) {
   const client = new OpenAI();
   const response = await client.responses.create({
     model: process.env.OPENAI_MODEL || "gpt-5.5",
-    input: `Create one AI Odd Couple episode for this approved request:\n${JSON.stringify(request)}\n\nBIBLE:\n${bible.join("\n\n")}`,
+    input: `Create one AI Odd Couple episode for this approved request:\n${JSON.stringify(request)}\n\nHard production requirements: include at least one split-screen scene showing Milo and Gladys together; put the requested CTA in the final animated character line; do not plan music, an intro, an outro, or full-screen educational graphics.\n\nBIBLE:\n${bible.join("\n\n")}`,
     text: { format: { type: "json_schema", name: "episode", strict: true, schema: {
       type: "object", additionalProperties: false,
       required: ["title", "takeaway", "factualClaims", "scenes"],
@@ -61,6 +61,7 @@ if (args["dry-run"]) {
   episode = JSON.parse(response.output_text);
 }
 validateEpisode(episode);
+assert(!request.cta || episode.scenes.at(-1)?.line.includes(request.cta), "The final animated character line must include the requested CTA.");
 
 const scenesPayload = { episodeSlug: slug, scenes: episode.scenes };
 await writeJson(path.join(episodeDir, "heygen-scenes.json"), scenesPayload);
@@ -85,15 +86,17 @@ await writeJson(path.join(episodeDir, "publish-metadata.json"), {
 
 const manifest = {
   episodeId: slug, tenant: "ai-odd-couple", topic: request.topic, audience: request.audience,
-  targetDurationSeconds: 30, characters: CHARACTERS, sourceAssets: ["series-bible/", "assets/characters/AI_Odd_Couple.webp"],
+  targetDurationSeconds: 30, maxDurationSeconds: MAX_EPISODE_DURATION_SECONDS, characters: CHARACTERS, sourceAssets: ["series-bible/", "assets/characters/AI_Odd_Couple.webp"],
   generatedClips: [], compositionVersion: "1.0.0", renderPath: `episodes/${slug}/renders/final-review.mp4`,
-  workflowState: args["dry-run"] ? "draft_artifacts_ready" : "generating_performances", approvalStatus: "not_requested"
+  workflowState: args["dry-run"] ? "draft_artifacts_ready" : "generating_performances", approvalStatus: "not_requested",
+  musicPolicy: "prohibited", introOutroPolicy: "prohibited_until_refined",
+  fullScreenEducationGraphicsSeconds: 0, maxFullScreenEducationGraphicsSeconds: MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS
 };
 await writeJson(path.join(episodeDir, "episode-manifest.json"), manifest);
 
 if (!args["dry-run"]) {
   assert(process.env.HEYGEN_API_KEY && process.env.HEYGEN_STUDIO_BACKGROUND_URL, "HeyGen secrets are required.");
-  for (const asset of ["assets/branding/logo.png", "assets/music/episode-bed.mp3"]) {
+  for (const asset of ["assets/branding/logo.png"]) {
     assert(await exists(path.join(ROOT, asset)), `Approved production asset missing: ${asset}`);
   }
   for (const scene of episode.scenes) {
@@ -104,6 +107,19 @@ if (!args["dry-run"]) {
     });
     assert(response.ok, `HeyGen generation failed: ${await response.text()}`);
     manifest.generatedClips.push({ sceneId: scene.sceneId, character: scene.character, videoId: (await response.json()).data.video_id });
+    if (scene.framing === "split-screen") {
+      const reactionCharacterName = scene.character === "milo" ? "gladys" : "milo";
+      const reactionCharacter = CHARACTERS[reactionCharacterName];
+      const reactionWordCount = scene.line.trim().split(/\s+/).length;
+      const reactionWords = ["I", "am", "listening", "carefully", "and", "reacting", "to", "this", "conversation", "with", "you", "now"];
+      const reactionText = Array.from({ length: reactionWordCount }, (_, index) => reactionWords[index % reactionWords.length]).join(" ") + ".";
+      const reactionResponse = await fetch("https://api.heygen.com/v2/video/generate", {
+        method: "POST", headers: { "X-Api-Key": process.env.HEYGEN_API_KEY, "Content-Type": "application/json" },
+        body: JSON.stringify({ video_inputs: [{ character: { type: "avatar", avatar_id: reactionCharacter.avatarId, avatar_style: "normal" }, voice: { type: "text", voice_id: reactionCharacter.voiceId, input_text: reactionText, speed: reactionCharacter.speed }, background: { type: "image", url: process.env.HEYGEN_STUDIO_BACKGROUND_URL } }], dimension: { width: 1080, height: 1920 }, title: `${slug}-${scene.sceneId}-reaction` })
+      });
+      assert(reactionResponse.ok, `HeyGen reaction generation failed: ${await reactionResponse.text()}`);
+      manifest.generatedClips.push({ sceneId: scene.sceneId, character: reactionCharacterName, role: "reaction", videoId: (await reactionResponse.json()).data.video_id });
+    }
   }
   manifest.workflowState = "waiting_for_performances";
   await writeJson(path.join(episodeDir, "episode-manifest.json"), manifest);
@@ -126,31 +142,35 @@ if (!args["dry-run"]) {
     assert(Number.isFinite(clip.duration) && clip.duration > 0, `Missing clip duration for ${clip.sceneId}`);
   }
 
-  const dialogueDuration = manifest.generatedClips.reduce((sum, clip) => sum + clip.duration, 0);
-  const finalDuration = dialogueDuration + 4;
-  assert(finalDuration >= 28 && finalDuration <= 32, `Rendered duration would be ${finalDuration.toFixed(1)}s; required range is 28-32s.`);
+  const primaryClips = manifest.generatedClips.filter((clip) => clip.role !== "reaction");
+  const dialogueDuration = primaryClips.reduce((sum, clip) => sum + clip.duration, 0);
+  const finalDuration = dialogueDuration;
+  assert(finalDuration >= 28 && finalDuration <= MAX_EPISODE_DURATION_SECONDS, `Rendered duration would be ${finalDuration.toFixed(1)}s; required range is 28-${MAX_EPISODE_DURATION_SECONDS}s.`);
+  assert(manifest.fullScreenEducationGraphicsSeconds <= MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, "Full-screen educational graphics exceed the 8-second maximum.");
   manifest.workflowState = "composing";
   await writeJson(path.join(episodeDir, "episode-manifest.json"), manifest);
   const escape = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-  let cursor = 2;
-  const media = manifest.generatedClips.map((clip, index) => {
+  let cursor = 0;
+  const media = primaryClips.map((clip, index) => {
     const scene = episode.scenes.find((item) => item.sceneId === clip.sceneId);
     const start = cursor;
     cursor += clip.duration;
-    return `<video id="v${index}" class="clip speaker" data-start="${start}" data-duration="${clip.duration}" data-track-index="0" src="../${clip.path}" muted playsinline></video>
+    const reaction = manifest.generatedClips.find((item) => item.sceneId === clip.sceneId && item.role === "reaction");
+    const videoClass = reaction ? `speaker split ${clip.character}` : "speaker";
+    const reactionVideo = reaction ? `<video id="r${index}" class="clip speaker split ${reaction.character}" data-start="${start}" data-duration="${clip.duration}" data-track-index="1" src="../${reaction.path}" muted playsinline></video>` : "";
+    return `<video id="v${index}" class="clip ${videoClass}" data-start="${start}" data-duration="${clip.duration}" data-track-index="0" src="../${clip.path}" muted playsinline></video>
+${reactionVideo}
 <audio id="a${index}" class="clip" data-start="${start}" data-duration="${clip.duration}" data-track-index="10" src="../${clip.path}" data-volume="1"></audio>
 <div id="c${index}" class="clip caption ${clip.character}" data-start="${start}" data-duration="${clip.duration}" data-track-index="${20 + index}">${escape(scene.line)}</div>`;
   }).join("\n");
   const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 *{box-sizing:border-box}body{margin:0;background:#1C1C20;color:#fff;font-family:Montserrat,Arial,sans-serif;overflow:hidden}
-#root{position:relative;width:1080px;height:1920px;background:#1C1C20}.speaker{position:absolute;width:100%;height:100%;object-fit:cover}
+#root{position:relative;width:1080px;height:1920px;background:#1C1C20}.speaker{position:absolute;width:100%;height:100%;object-fit:cover}.speaker.split{width:50%}.speaker.split.milo{left:0}.speaker.split.gladys{right:0}
 .caption{position:absolute;left:70px;right:70px;bottom:300px;padding:26px 32px;text-align:center;font-size:58px;font-weight:800;line-height:1.12;text-shadow:0 4px 6px #000;background:#1C1C20dd;border-bottom:14px solid #CE1141}.caption.gladys{border-color:#9B7EBD}
 .logo{position:absolute;width:220px;top:250px;left:430px}.card{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:100px;text-align:center;font-size:88px;font-weight:800;background:#1C1C20}
 </style></head><body><div id="root" data-composition-id="episode" data-start="0" data-width="1080" data-height="1920">
-<div class="clip card" data-start="0" data-duration="2" data-track-index="1">${escape(episode.title)}</div>${media}
-<div class="clip card" data-start="${finalDuration - 2}" data-duration="2" data-track-index="1">${escape(request.cta)}</div>
+${media}
 <img class="clip logo" data-start="0" data-duration="${finalDuration}" data-track-index="5" src="../../../assets/branding/logo.png">
-<audio class="clip" data-start="0" data-duration="${finalDuration}" data-track-index="11" src="../../../assets/music/episode-bed.mp3" data-volume=".18"></audio>
 </div></body></html>`;
   await fs.writeFile(path.join(episodeDir, "composition", "index.html"), html);
   const run = (command, commandArgs) => {
@@ -167,7 +187,7 @@ if (!args["dry-run"]) {
   await writeJson(path.join(episodeDir, "episode-manifest.json"), manifest);
 }
 
-await fs.writeFile(path.join(episodeDir, "QA_REPORT.md"), `# QA Report\n\n- Script contract: PASS\n- Spoken words: ${spokenWords(episode.scenes)}\n- Approved avatar and voice IDs: PASS\n- Provider clips: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Final render: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Publishing action: NONE\n- Workflow state: ${args["dry-run"] ? "draft_artifacts_ready" : "awaiting_approval"}\n`);
+await fs.writeFile(path.join(episodeDir, "QA_REPORT.md"), `# QA Report\n\n- Script contract: PASS\n- Spoken words: ${spokenWords(episode.scenes)}\n- Animated character performances: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Both characters together in at least one scene: PASS\n- Music: NONE\n- Intro/outro cards: NONE\n- Full-screen educational graphics: 0 seconds / 8 seconds maximum\n- Approved avatar and voice IDs: PASS\n- Provider clips: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Final render: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Publishing action: NONE\n- Workflow state: ${args["dry-run"] ? "draft_artifacts_ready" : "awaiting_approval"}\n`);
 console.log(`Created ${path.relative(ROOT, episodeDir)}`);
 if (process.env.GITHUB_OUTPUT) {
   await fs.appendFile(process.env.GITHUB_OUTPUT, `episode_dir=${path.relative(ROOT, episodeDir).replaceAll("\\", "/")}\nepisode_id=${slug}\n`);

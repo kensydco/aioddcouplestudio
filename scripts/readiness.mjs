@@ -10,7 +10,7 @@ const requiredFiles = [
 ];
 const optionalProductionAssets = [
   "assets/backgrounds/studio.png", "assets/branding/logo.png",
-  "assets/branding/logo-bug.png", "assets/music/episode-bed.mp3"
+  "assets/branding/logo-bug.png"
 ];
 
 let failed = false;

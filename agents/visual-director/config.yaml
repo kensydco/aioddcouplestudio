@@ -5,6 +5,7 @@ fallback_model: opencode/nemotron-3-super-free
 budget_percent: 10
 heartbeat: per_episode
 skills:
+  - ai-odd-couple-video-production
   - ai-video-generation
   - ai-image-generation
   - spending-cap-fallback
@@ -27,6 +28,10 @@ prompt: |
   - Camera style
 
   Keep visuals SIMPLE and repeatable.
+  Do not use music or standalone intro/outro scenes.
+  Every line must be delivered by an animated locked character.
+  Include at least one split-screen scene showing animated Milo and Gladys together.
+  Limit full-screen educational graphics that replace characters to 8 seconds total; default to zero.
 
   Use this EXACT structure for HeyGen Prompts:
   Scene 1:

@@ -8,12 +8,14 @@
 
 - **Resolution:** 1080 × 1920 (9:16 vertical).
 - **Frame rate:** 30 fps.
-- **Final duration:** 28–32 seconds (standard episode); ~15s for the series intro.
+- **Final duration:** 28–45 seconds.
 - **Safe areas:** keep faces and captions clear of the top 12% and bottom 14% (platform UI). Captions live in the lower third but above the bottom-14% guard.
 
 ## 2. Character placement & scale
 
 - **Alternating close-ups** are the default. Both-on-screen only via split-screen for the designated interaction/reaction.
+- At least one scene must visibly show animated Milo and Gladys together.
+- Static character images do not satisfy the animated-character requirement.
 - **Milo:** screen **left**, looking right. **Gladys:** screen **right**, looking left. Keep this consistent so viewers subconsciously track who's who.
 - Head size consistent across cuts (eyes land roughly on the upper-third line). No jarring scale jumps between clips.
 - Split-screen: clean vertical divider, 50/50, Milo left / Gladys right.
@@ -57,13 +59,15 @@
 
 - Name lower-third appears briefly on each character's first line per episode.
 - Concept graphics (diagrams, Milo's deliberately-bad "MS Paint" sketches, Gladys's recipe cards) slide in during the 16–24s explanation beat, then out.
+- Full-screen educational graphics that replace the characters may total no more than **8 seconds** per episode. Default to zero seconds.
+- Graphics overlaid while animated characters remain visible do not count toward the 8-second limit.
 - Logo bug: small, top-left or top-right, persistent, low opacity (~70%).
 
 ## 8. Intro / outro
 
-- **Intro sting:** ~1.5–2s branded open (logo + quick musical stinger). Consistent every episode.
-- **Outro:** ~2s — logo lockup + the chosen CTA caption. Music fades to silence over the final ~2s on the closing point/freeze.
-- The standalone ~15s series intro/trailer is a separate asset (see production guide §15).
+- No standalone intro or outro until the episode format is refined.
+- Start immediately with animated character action.
+- End on the final animated character line, which carries the CTA when requested.
 
 ## 9. Transitions & motion
 
@@ -73,10 +77,9 @@
 
 ## 10. Audio levels
 
-- **Music:** upbeat lo-fi hip-hop, ~100–115 BPM. Ducked to ~20% under dialogue; up to ~80% on title cards / intro / outro.
+- **Music:** prohibited.
 - **Dialogue:** always the priority; must be fully intelligible.
 - **SFX:** sparing — pop/whoosh on transitions, optional record-scratch when Milo derails, a soft "ding" on a Gladys wisdom beat. Only from the approved SFX library.
-- **Music fade:** to silence over the last ~2 seconds.
 
 ## 11. Running visual gags (use ≤1 per episode)
 
@@ -93,7 +96,9 @@ Pick at most one so the single concept stays the star.
 - No scale/eyeline jumps between cuts.
 - No captions over faces or inside the platform-UI guards.
 - No more than one primary split-screen per episode.
-- No unapproved fonts, colors, music, or SFX.
+- No music.
+- No more than 8 seconds of full-screen educational graphics that replace the characters.
+- No episode without at least one animated Milo-and-Gladys interaction scene.
 
 ---
 

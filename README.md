@@ -24,6 +24,11 @@ Produce 2 high-retention, funny, beginner-friendly AI education videos per week 
 ## Pipeline
 `Approved Topic → Script → Canon QA → HeyGen → HyperFrames → awaiting_approval`
 
+Production rules: no music or standalone intro/outro; every line uses an
+animated locked character performance; at least one scene shows animated Milo
+and Gladys together; full-screen educational graphics replacing characters are
+capped at eight seconds.
+
 The production runner never publishes. See `PRODUCTION.md`.
 
 ## Key Files

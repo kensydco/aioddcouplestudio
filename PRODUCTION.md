@@ -5,6 +5,12 @@ It accepts only a committed topic file with `"approved": true`, creates the
 episode artifacts, submits one locked HeyGen avatar clip per dialogue turn, and
 stops before publishing.
 
+Every production uses animated character performances, includes at least one
+scene with animated Milo and Gladys together, uses no music or standalone
+intro/outro, and limits full-screen educational graphics that replace the
+characters to no more than eight seconds.
+Final episode duration may be up to 45 seconds.
+
 ## Required GitHub repository secrets
 
 - `OPENAI_API_KEY`

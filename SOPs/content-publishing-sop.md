@@ -6,15 +6,17 @@
 
 ## Policy
 
-Production and publishing are separate workflows. The production workflow creates a 28-32 second review video and stops at `awaiting_approval`. No video may publish until a human approves the protected GitHub Environment named `social-production`.
+Production and publishing are separate workflows. The production workflow creates a 28-45 second review video and stops at `awaiting_approval`. No video may publish until a human approves the protected GitHub Environment named `social-production`.
 
 ## Standard Platform Format
 
 - 1080 x 1920 vertical MP4
-- 28-32 seconds
+- 28-45 seconds
 - Burned-in captions
 - Approved Milo and Gladys identities only
-- Approved branding and theme music only
+- No music or standalone intro/outro
+- Animated Milo and Gladys together in at least one scene
+- No more than 8 seconds of full-screen educational graphics that replace the characters
 
 ## Standard Schedule
 
@@ -55,7 +57,7 @@ Requires `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_ACCOUNT_ID`, and a public URL for 
 
 ## Quality Gates
 
-- Canon, PG, accuracy, hook, caption, duration, resolution, and approved-asset checks pass.
+- Canon, PG, accuracy, hook, caption, duration, resolution, animated-character, interaction-scene, no-music, and graphics-budget checks pass.
 - Final review MP4 exists.
 - Workflow state is `awaiting_approval`.
 - Human reviewer approves the exact production artifact.

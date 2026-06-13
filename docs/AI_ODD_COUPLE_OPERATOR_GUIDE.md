@@ -17,7 +17,7 @@ For each approved topic, the system can:
 - Validate character voice, episode structure, and locked provider IDs.
 - Create one HeyGen speaking clip per dialogue turn.
 - Download provider clips and assemble a branded 1080 x 1920 HyperFrames video.
-- Burn in captions, add approved branding and theme music, and render a review MP4.
+- Burn in captions, add approved branding, and render a review MP4 with no music.
 - Create the brief, script, storyboard, manifest, scene plan, publish metadata, and QA report.
 - Persist the state as `awaiting_approval`.
 - Email the approval recipient when the video is ready.
@@ -33,7 +33,7 @@ The production workflow cannot publish. Social credentials exist only in the sep
 | Canon Guardian | Enforces Milo, Gladys, PG, and accuracy rules. |
 | Visual Director | Converts dialogue into HeyGen scenes and repeatable framing. |
 | HeyGen | Generates locked Milo and Gladys speaking performances and voices. |
-| HyperFrames | Adds composition, captions, branding, music, and final rendering. |
+| HyperFrames | Adds composition, captions, branding, and final rendering without music. |
 | Publishing Manager | Creates platform metadata and routes approved media to social platforms. |
 | GitHub Actions | Runs production while the PC is off, stores artifacts, sends email, and enforces approval. |
 
@@ -171,9 +171,11 @@ Before approving social publishing:
 - The video teaches exactly one correct concept.
 - Milo and Gladys look and sound consistent.
 - Dialogue is 65-80 spoken words and no more than six turns.
-- Duration is 28-32 seconds and output is vertical 1080 x 1920.
+- Duration is 28-45 seconds and output is vertical 1080 x 1920.
 - Captions match speech and remain readable.
-- Branding and approved music are correct.
+- No music or standalone intro/outro is present.
+- Animated Milo and Gladys appear together in at least one scene.
+- Full-screen educational graphics that replace the characters total no more than 8 seconds.
 - QA report passes and manifest state is `awaiting_approval`.
 - Platform metadata is accurate and appropriate.
 
@@ -184,7 +186,7 @@ Before approving social publishing:
 | Readiness fails | Open the failed step and correct the named missing secret, asset, or provider access. |
 | Production succeeds but email fails | Download the production artifact from the run; correct SMTP secrets and rerun notification or the production workflow. |
 | HeyGen clip fails | Stop and inspect the saved provider ID, account access, and failure response. Never substitute an identity. |
-| Duration is outside 28-32 seconds | Revise the script or performance speed and produce a new review artifact. |
+| Duration is outside 28-45 seconds | Revise the script or performance speed and produce a new review artifact. |
 | Social workflow is waiting | Approve or reject the `social-production` environment request. |
 | Platform credential expired | Refresh only that platform credential and retry only that platform. |
 | Instagram cannot publish | Confirm the professional account authorization and that the supplied MP4 URL is publicly reachable. |

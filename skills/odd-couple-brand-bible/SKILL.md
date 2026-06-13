@@ -13,7 +13,7 @@ description: Master brand reference for AI Odd Couple Studio — defines Milo + 
 
 **AI Odd Couple Studio** produces short-form AI education content (YouTube Shorts, TikTok, Instagram Reels) starring two unlikely co-hosts who teach one AI concept per episode through comedic conflict.
 
-- **Format:** 30-second vertical video (9:16), targeting 28–32 seconds
+- **Format:** vertical video (9:16), targeting 28–45 seconds
 - **Target audience:** Ages 8–80 — anyone curious about AI but intimidated by jargon
 - **Tone:** Warm, funny, never condescending
 - **Core promise:** Every viewer leaves knowing ONE thing about AI they didn't know before
@@ -72,6 +72,9 @@ Every episode MUST follow this four-beat structure:
 - Use Milo's analogies as the primary teaching vehicle
 - Include a Harold reference in every episode
 - Optimize the first 3 seconds for maximum hook — this determines retention
+- Use animated locked character performances for every line
+- Show animated Milo and Gladys together in at least one scene
+- Keep full-screen educational graphics that replace the characters to 8 seconds or less
 
 ### What We NEVER Do
 - Profanity, adult themes, or unsafe behavior
@@ -80,6 +83,7 @@ Every episode MUST follow this four-beat structure:
 - Teach more than one concept per episode
 - Skip the cold open hook
 - Use jargon without immediately explaining it in Milo's words
+- Use music or standalone intro/outro scenes
 
 ---
 
@@ -119,4 +123,4 @@ Every episode MUST follow this four-beat structure:
 - [ ] Harold is mentioned at least once?
 - [ ] Content is PG and family-friendly?
 - [ ] Episode ends with warmth/unity?
-- [ ] Total runtime 28–32 seconds?
+- [ ] Total runtime 28–45 seconds?
