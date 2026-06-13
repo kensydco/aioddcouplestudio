@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, spokenWords, validateEpisode } from "../scripts/lib.mjs";
+import { CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, reactionWordCount, spokenWords, validateEpisode } from "../scripts/lib.mjs";
 
 test("locked provider IDs remain unchanged", () => {
   assert.equal(CHARACTERS.milo.avatarId, "13d2fb313843409f90480c856b31f986");
@@ -33,4 +33,9 @@ test("validator requires a scene with both animated characters", () => {
       { character: "gladys", line: "That sounds practical enough for me to try without calling the neighborhood computer fellow for extra help.", framing: "close-up" }
     ]
   }), /together/);
+});
+
+test("reaction performances are long enough to cover split-screen interactions", () => {
+  assert.equal(reactionWordCount("Short line"), 20);
+  assert.equal(reactionWordCount("one two three four five six"), 24);
 });

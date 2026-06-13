@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import OpenAI from "openai";
-import { ROOT, CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, assert, ensureDir, exists, readText, slugify, spokenWords, validateEpisode, writeJson } from "./lib.mjs";
+import { ROOT, CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, assert, ensureDir, exists, reactionWordCount, readText, slugify, spokenWords, validateEpisode, writeJson } from "./lib.mjs";
 
 const args = Object.fromEntries(process.argv.slice(2).map((arg, i, all) => arg.startsWith("--") ? [arg.slice(2), !all[i + 1] || all[i + 1].startsWith("--") ? true : all[i + 1]] : []).filter(Boolean));
 const assertResponseOk = async (response, label) => {
@@ -123,9 +123,8 @@ if (!args["dry-run"]) {
     if (scene.framing === "split-screen") {
       const reactionCharacterName = scene.character === "milo" ? "gladys" : "milo";
       const reactionCharacter = CHARACTERS[reactionCharacterName];
-      const reactionWordCount = scene.line.trim().split(/\s+/).length;
       const reactionWords = ["I", "am", "listening", "carefully", "and", "reacting", "to", "this", "conversation", "with", "you", "now"];
-      const reactionText = Array.from({ length: reactionWordCount }, (_, index) => reactionWords[index % reactionWords.length]).join(" ") + ".";
+      const reactionText = Array.from({ length: reactionWordCount(scene.line) }, (_, index) => reactionWords[index % reactionWords.length]).join(" ") + ".";
       const reactionResponse = await fetch("https://api.heygen.com/v2/video/generate", {
         method: "POST", headers: { "X-Api-Key": process.env.HEYGEN_API_KEY, "Content-Type": "application/json" },
         body: JSON.stringify({ video_inputs: [{ character: { type: "avatar", avatar_id: reactionCharacter.avatarId, avatar_style: "normal" }, voice: { type: "text", voice_id: reactionCharacter.voiceId, input_text: reactionText, speed: reactionCharacter.speed }, background: { type: "image", url: process.env.HEYGEN_STUDIO_BACKGROUND_URL } }], dimension: { width: 1080, height: 1920 }, title: `${slug}-${scene.sceneId}-reaction` })

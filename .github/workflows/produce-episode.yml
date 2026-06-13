@@ -72,7 +72,12 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
       - if: (inputs.mode == 'produce' || inputs.mode == 'produce_ad_hoc') && success()
-        run: npm run notify
+        run: |
+          if [ -z "$SMTP_HOST" ] || [ -z "$SMTP_USERNAME" ] || [ -z "$SMTP_PASSWORD" ] || [ -z "$APPROVAL_EMAIL" ]; then
+            echo "Approval email skipped because SMTP secrets are not configured."
+            exit 0
+          fi
+          npm run notify
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}

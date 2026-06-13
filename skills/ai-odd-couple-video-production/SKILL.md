@@ -22,8 +22,11 @@ Use this skill whenever producing, revising, or reviewing an AI Odd Couple episo
 
 - Default full-screen educational graphics budget: 0 seconds.
 - Use alternating animated speaker clips plus one split-screen interaction.
+- Generate muted reaction performances long enough to cover the full split-screen interaction; never allow an empty or black character half.
 - Keep the approved studio background and framing consistent.
 - Use graphics only when they explain the concept more clearly than the characters can.
+- Stage generated media inside the composition project before HyperFrames lint and render.
+- Treat approval email as optional when SMTP secrets are not configured; the completed production must still report success and remain at `awaiting_approval`.
 
 ## Required QA Evidence
 

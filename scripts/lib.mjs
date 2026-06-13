@@ -11,6 +11,7 @@ export const MAX_EPISODE_DURATION_SECONDS = 45;
 
 export const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 export const spokenWords = (scenes) => scenes.reduce((n, scene) => n + scene.line.trim().split(/\s+/).length, 0);
+export const reactionWordCount = (line) => Math.max(20, line.trim().split(/\s+/).length * 4);
 export const assert = (condition, message) => { if (!condition) throw new Error(message); };
 export const exists = async (file) => fs.access(file).then(() => true, () => false);
 export const writeJson = (file, value) => fs.writeFile(file, `${JSON.stringify(value, null, 2)}\n`);
