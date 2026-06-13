@@ -29,15 +29,15 @@ These are the **only** approved character identities. Never regenerate from text
 
 | Asset | Path | Status |
 |-------|------|--------|
-| Podcast studio (default) | `assets/backgrounds/studio.png` | 🟡 supply a clean 1080×1920 plate matching the canonical still |
+| Podcast studio (default) | `assets/backgrounds/studio.png` | ✅ approved empty-studio plate; HeyGen may crop it for 9:16 |
 | Studio (split-screen variant) | `assets/backgrounds/studio-split.png` | 🟡 optional |
 
 ## 4. Branding
 
 | Asset | Spec | Path | Status |
 |-------|------|------|--------|
-| Logo (primary) | transparent PNG, light + dark variants | `assets/branding/logo.png` | 🟡 |
-| Logo bug (corner) | small, ~70% opacity | `assets/branding/logo-bug.png` | 🟡 |
+| Logo (primary) | approved primary logo | `assets/branding/logo.png` | ✅ |
+| Logo bug (corner) | approved black-background logo, rendered at ~70% opacity | `assets/branding/logo-bug.png` | ✅ |
 | Intro sting | ~1.5–2s, 1080×1920 | `assets/branding/intro.mp4` | 🟡 |
 | Outro lockup | ~2s, 1080×1920 | `assets/branding/outro.mp4` | 🟡 |
 | Color palette | see `VISUAL_STYLE.md` §4 | — | ✅ |
@@ -55,7 +55,7 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 
 | Track | Mood | BPM | License | Path | Status |
 |-------|------|-----|---------|------|--------|
-| Episode bed | upbeat lo-fi hip-hop | 100–115 | royalty-free / licensed | `assets/music/episode-bed.mp3` | 🟡 supply from approved library |
+| Episode bed | approved AI Odd Couple theme song | supplied by founder | approved for series use | `assets/music/episode-bed.mp3` | ✅ |
 
 > Music must be cleared for commercial social use. Duck to ~20% under dialogue (see `VISUAL_STYLE.md` §10).
 
@@ -79,11 +79,11 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 | Dependency | Requirement | Status |
 |------------|-------------|--------|
 | HeyGen account access | API key in `HEYGEN_API_KEY` env var | 🟡 verify |
-| `HEYGEN_STUDIO_BACKGROUND_URL` | hosted studio plate URL | 🟡 verify |
-| HyperFrames | installed + working render command | 🟡 verify exact command |
-| Node.js | version required by the HyperFrames release | 🟡 verify |
-| FFmpeg | installed + on PATH | 🟡 verify |
-| Output storage | approved path/bucket | 🟡 verify |
+| `HEYGEN_STUDIO_BACKGROUND_URL` | public raw GitHub URL for approved studio plate | ✅ configured in GitHub Actions |
+| HyperFrames | `0.6.95`; lint and validate verified | ✅ |
+| Node.js | `24` in GitHub Actions | ✅ |
+| FFmpeg | installed by GitHub Actions workflow | ✅ |
+| Output storage | GitHub Actions artifacts, retained 30 days | ✅ |
 
 > **Do not claim the workflow is production-ready until every 🟡 above is verified and flipped to ✅.** Credentials live in environment variables only — never in this file or any episode artifact.
 
@@ -92,6 +92,7 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 | Date | Change | By |
 |------|--------|----|
 | 2026-06 | Initial registry created; provider IDs locked | — |
+| 2026-06-13 | Approved supplied background, logos, theme song, and hosted runtime route | Codex |
 
 ---
 

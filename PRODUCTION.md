@@ -23,9 +23,8 @@ Optional repository variable: `OPENAI_MODEL` (defaults to `gpt-5.5`).
 The workflow has no publish credentials or publish step. Missing required
 identities, secrets, assets, or runtime dependencies stop production.
 
-## Current limitation
+## Approval boundary
 
-The repository now handles intake, scripting, contract validation, HeyGen
-submission, state, and the approval guard. Clip polling/download and final
-HyperFrames composition remain blocked until the pending approved studio plate,
-logo, music, and branding assets are supplied.
+The repository handles intake, scripting, contract validation, HeyGen
+submission and polling, final HyperFrames composition, workflow state, and the
+approval guard. It stops at `awaiting_approval` and never publishes.
