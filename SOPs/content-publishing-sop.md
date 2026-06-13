@@ -1,123 +1,69 @@
-# Content Publishing SOP — AI Odd Couple Studio
+# Content Publishing SOP - AI Odd Couple Studio
 
-**Version:** 1.0  
+**Version:** 2.0
 **Owner:** Publishing_Manager  
-**Reviewed by:** ChiefOfStaff  
-**Last Updated:** 2026-04-14
+**Last Updated:** 2026-06-13
 
----
+## Policy
 
-## Overview
+Production and publishing are separate workflows. The production workflow creates a 28-32 second review video and stops at `awaiting_approval`. No video may publish until a human approves the protected GitHub Environment named `social-production`.
 
-This SOP defines the end-to-end publishing workflow for all AI Odd Couple Studio short-form content across YouTube Shorts, TikTok, and Instagram Reels. All content features Milo (10-year-old AI enthusiast) and Gladys (skeptical grandmother) in comedic AI education segments.
+## Standard Platform Format
 
----
+- 1080 x 1920 vertical MP4
+- 28-32 seconds
+- Burned-in captions
+- Approved Milo and Gladys identities only
+- Approved branding and theme music only
 
-## Platform Specifications
+## Standard Schedule
+
+| Day | Time CT | Action |
+|---|---:|---|
+| Monday | 9:00 AM | Approve topics for the week |
+| Tuesday | 9:00 AM | Produce episode one |
+| Tuesday | After review | Approve and publish episode one |
+| Thursday | 9:00 AM | Produce episode two |
+| Thursday | After review | Approve and publish episode two |
+| Friday | 3:00 PM | Review results, costs, and next-week topics |
+
+Additional ad hoc episodes may be produced at any time. The guide permits up to four episodes per week, subject to provider budget and review capacity.
+
+## Production and Approval
+
+1. Run **Produce approved episode** in `readiness`, `produce`, or `produce_ad_hoc` mode.
+2. The agent creates scripts, HeyGen performances, the HyperFrames composition, final review MP4, manifest, and QA report.
+3. The agent uploads the production artifact and emails the approval recipient.
+4. Review the MP4, script, QA report, and publish metadata.
+5. Run **Publish approved episode** using the production run ID.
+6. Approve the `social-production` environment request.
+7. The workflow publishes only to the platforms selected in the dispatch form.
+
+## Platform Credentials
 
 ### YouTube Shorts
 
-| Spec | Requirement |
-|---|---|
-| Aspect Ratio | 9:16 vertical |
-| Resolution | 1080 × 1920 minimum |
-| Duration | 60–90 seconds |
-| File Format | MP4 (H.264) |
-| Max File Size | 256 MB |
-| Title Length | 60 characters max |
-| Description | 500 characters; include 3–5 hashtags |
-| Thumbnail | 1280 × 720 (auto-generated from Shorts; custom optional) |
-
-**Title Formula:** `[Milo teaches Gladys] [AI concept] — She [reaction]`  
-*Example: "Milo teaches Gladys about ChatGPT — She thinks it's a chatbot for cats"*
-
-**Upload Checklist:**
-- [ ] Video is 9:16, 60–90 seconds
-- [ ] Title follows formula, under 60 chars
-- [ ] Description includes episode number (e.g., `AIO-EP-001`)
-- [ ] Tags: `#AIForBeginners #AIShorts #LearnAI #MiloAndGladys #AIEducation`
-- [ ] Scheduled for Tuesday or Thursday, 9–11 AM local
-
----
+Requires `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET`, and `YOUTUBE_REFRESH_TOKEN`. The Google project must have YouTube Data API access and permission to upload to the intended channel.
 
 ### TikTok
 
-| Spec | Requirement |
-|---|---|
-| Aspect Ratio | 9:16 vertical |
-| Resolution | 1080 × 1920 |
-| Duration | 60–90 seconds |
-| File Format | MP4 |
-| Max File Size | 287.6 MB |
-| Caption Length | 150 characters max |
-| Hashtags | 3–5 in caption |
-
-**Caption Formula:** `[Hook question or statement] 🤖 [Milo & Gladys] #AIForBeginners`  
-*Example: "What happens when grandma meets ChatGPT? 🤖 Milo explains it all #AIForBeginners #TechForSeniors"*
-
-**Upload Checklist:**
-- [ ] Video matches YouTube Shorts export (same file)
-- [ ] Caption under 150 chars with hook
-- [ ] 3–5 relevant hashtags added
-- [ ] Sound: original audio preferred (no copyrighted music)
-- [ ] Scheduled within 2 hours of YouTube Shorts post
-
----
+Requires `TIKTOK_ACCESS_TOKEN`. The TikTok application must be approved for the Content Posting API and Direct Post. TikTok may restrict unaudited applications to private visibility.
 
 ### Instagram Reels
 
-| Spec | Requirement |
-|---|---|
-| Aspect Ratio | 9:16 vertical |
-| Resolution | 1080 × 1920 |
-| Duration | 60–90 seconds |
-| File Format | MP4 |
-| Max File Size | 1 GB |
-| Caption Length | 2,200 characters max |
-| Hashtags | 5–10 in caption or first comment |
+Requires `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_ACCOUNT_ID`, and a public URL for the approved MP4 supplied during publish dispatch. The Instagram account must be a professional account authorized for content publishing.
 
-**Caption Formula:** `[Opening hook] \n\n[2-sentence episode summary] \n\n[CTA: Follow for more AI tips] \n\n[Hashtags]`
+## Quality Gates
 
-**Upload Checklist:**
-- [ ] Cover frame is visually strong (Milo + Gladys both visible)
-- [ ] Caption has hook in first line (no truncation before "more")
-- [ ] CTA included: "Follow @aioddcouple for weekly AI lessons"
-- [ ] Hashtags: `#AIEducation #LearnAI #ArtificialIntelligence #TechForSeniors #AIForKids #MiloAndGladys #AIShorts #DigitalLiteracy`
+- Canon, PG, accuracy, hook, caption, duration, resolution, and approved-asset checks pass.
+- Final review MP4 exists.
+- Workflow state is `awaiting_approval`.
+- Human reviewer approves the exact production artifact.
+- The protected `social-production` environment is approved.
 
----
+## Failure Handling
 
-## Publishing Calendar
-
-| Day | Platform | Time (CST) | Action |
-|---|---|---|---|
-| Tuesday | YouTube Shorts | 9:00 AM | Primary publish |
-| Tuesday | TikTok | 10:00 AM | Cross-post |
-| Tuesday | Instagram Reels | 11:00 AM | Cross-post |
-| Thursday | YouTube Shorts | 9:00 AM | Second episode of week |
-| Thursday | TikTok | 10:00 AM | Cross-post |
-| Thursday | Instagram Reels | 11:00 AM | Cross-post |
-
----
-
-## Episode Numbering
-
-All episodes follow the format: `AIO-EP-{3-digit-number}`  
-*Examples: AIO-EP-001, AIO-EP-002, AIO-EP-010*
-
-Track published episodes in the `PHASES/` directory under the active phase file.
-
----
-
-## Quality Gates Before Publishing
-
-1. **Canon Guardian approval** — Character voices and AI accuracy confirmed
-2. **PG content check** — No inappropriate content for all-ages audience
-3. **Hook check** — First 3 seconds contain a clear hook (question, surprise, or conflict)
-4. **Thumbnail/cover frame** — Milo and Gladys both visible, text overlay readable at small size
-5. **Caption review** — No spelling errors, CTA present, hashtags relevant
-
----
-
-## Escalation
-
-If a video fails quality gates, route back to Episode_Architect with a comment on the issue ticket explaining which gate failed and why.
+- Production failure: no email and no publishing.
+- Email failure: video artifact remains available; workflow reports failure.
+- One platform failure: successful platform results remain recorded; retry only the failed platform.
+- Missing or expired social credentials: publishing stops without substituting another account or route.

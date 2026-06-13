@@ -14,7 +14,17 @@ on:
         options:
           - readiness
           - produce
+          - produce_ad_hoc
         default: readiness
+      ad_hoc_topic:
+        description: Topic used only with produce_ad_hoc
+        required: false
+      ad_hoc_audience:
+        description: Optional audience used only with produce_ad_hoc
+        required: false
+      ad_hoc_cta:
+        description: Optional CTA used only with produce_ad_hoc
+        required: false
 
 permissions:
   contents: read
@@ -33,23 +43,42 @@ jobs:
       - run: npm ci
       - run: npx hyperframes browser ensure
       - run: npm test
+      - if: inputs.mode == 'produce_ad_hoc'
+        run: node scripts/create-ad-hoc-topic.mjs
+        env:
+          AD_HOC_TOPIC: ${{ inputs.ad_hoc_topic }}
+          AD_HOC_AUDIENCE: ${{ inputs.ad_hoc_audience }}
+          AD_HOC_CTA: ${{ inputs.ad_hoc_cta }}
       - run: npm run readiness
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
           HEYGEN_STUDIO_BACKGROUND_URL: ${{ secrets.HEYGEN_STUDIO_BACKGROUND_URL }}
-      - if: inputs.mode == 'produce'
-        run: npm run episode -- --topic "${{ inputs.topic_file }}"
+      - if: inputs.mode == 'produce' || inputs.mode == 'produce_ad_hoc'
+        id: episode
+        run: npm run episode -- --topic "${{ inputs.mode == 'produce_ad_hoc' && 'topics/runtime/ad-hoc.json' || inputs.topic_file }}"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
           HEYGEN_STUDIO_BACKGROUND_URL: ${{ secrets.HEYGEN_STUDIO_BACKGROUND_URL }}
       - if: always()
+        id: artifact
         uses: actions/upload-artifact@v4
         with:
           name: ai-odd-couple-production-${{ github.run_id }}
           path: episodes/
           if-no-files-found: warn
           retention-days: 30
+      - if: (inputs.mode == 'produce' || inputs.mode == 'produce_ad_hoc') && success()
+        run: npm run notify
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          APPROVAL_EMAIL: ${{ secrets.APPROVAL_EMAIL }}
+          EPISODE_ID: ${{ steps.episode.outputs.episode_id }}

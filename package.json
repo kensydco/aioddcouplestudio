@@ -5,11 +5,14 @@
   "type": "module",
   "scripts": {
     "episode": "node scripts/run-episode.mjs",
+    "notify": "node scripts/send-approval-email.mjs",
+    "publish": "node scripts/publish-social.mjs",
     "readiness": "node scripts/readiness.mjs",
     "test": "node --test",
     "lint:template": "npx hyperframes lint templates/ai-odd-couple-episode"
   },
   "dependencies": {
+    "nodemailer": "^8.0.11",
     "openai": "^5.23.2"
   },
   "devDependencies": {

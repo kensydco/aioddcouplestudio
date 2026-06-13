@@ -67,6 +67,21 @@ await writeJson(path.join(episodeDir, "heygen-scenes.json"), scenesPayload);
 await fs.writeFile(path.join(episodeDir, "BRIEF.md"), `# ${episode.title}\n\n- Topic: ${request.topic}\n- Audience: ${request.audience}\n- CTA: ${request.cta}\n- Takeaway: ${episode.takeaway}\n- Claims to verify: ${episode.factualClaims.join("; ")}\n`);
 await fs.writeFile(path.join(episodeDir, "SCRIPT.md"), `# ${episode.title}\n\n${episode.scenes.map((s) => `**${s.character.toUpperCase()}:** ${s.line}`).join("\n\n")}\n\nSpoken words: ${spokenWords(episode.scenes)}\n`);
 await fs.writeFile(path.join(episodeDir, "STORYBOARD.md"), `# Storyboard\n\n${episode.scenes.map((s, i) => `${i + 1}. **${s.character} / ${s.framing}:** ${s.line}`).join("\n")}\n`);
+await writeJson(path.join(episodeDir, "publish-metadata.json"), {
+  youtube: {
+    title: `${episode.title} #Shorts`,
+    description: `${episode.takeaway}\n\nFollow The AI Odd Couple for practical AI lessons.\n\n#AIForBeginners #AIShorts #MiloAndGladys`,
+    tags: ["AI for beginners", "AI Shorts", "Milo and Gladys", "AI education"],
+    privacyStatus: "public"
+  },
+  tiktok: {
+    title: `${episode.title} - ${episode.takeaway} #AIForBeginners #MiloAndGladys`,
+    privacyLevel: "PUBLIC_TO_EVERYONE"
+  },
+  instagram: {
+    caption: `${episode.title}\n\n${episode.takeaway}\n\nFollow for more practical AI lessons.\n\n#AIEducation #LearnAI #AIForBeginners #MiloAndGladys`
+  }
+});
 
 const manifest = {
   episodeId: slug, tenant: "ai-odd-couple", topic: request.topic, audience: request.audience,
@@ -154,3 +169,6 @@ if (!args["dry-run"]) {
 
 await fs.writeFile(path.join(episodeDir, "QA_REPORT.md"), `# QA Report\n\n- Script contract: PASS\n- Spoken words: ${spokenWords(episode.scenes)}\n- Approved avatar and voice IDs: PASS\n- Provider clips: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Final render: ${args["dry-run"] ? "NOT RUN (dry run)" : "PASS"}\n- Publishing action: NONE\n- Workflow state: ${args["dry-run"] ? "draft_artifacts_ready" : "awaiting_approval"}\n`);
 console.log(`Created ${path.relative(ROOT, episodeDir)}`);
+if (process.env.GITHUB_OUTPUT) {
+  await fs.appendFile(process.env.GITHUB_OUTPUT, `episode_dir=${path.relative(ROOT, episodeDir).replaceAll("\\", "/")}\nepisode_id=${slug}\n`);
+}

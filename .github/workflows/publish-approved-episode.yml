@@ -1,0 +1,53 @@
+name: Publish approved episode
+
+on:
+  workflow_dispatch:
+    inputs:
+      production_run_id:
+        description: Successful Produce approved episode run ID
+        required: true
+      platforms:
+        description: Comma-separated platforms: youtube,tiktok,instagram
+        required: true
+        default: youtube
+      instagram_video_url:
+        description: Public approved-video URL required only for Instagram
+        required: false
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  publish:
+    environment: social-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --omit=dev
+      - uses: actions/download-artifact@v4
+        with:
+          name: ai-odd-couple-production-${{ inputs.production_run_id }}
+          path: approved-artifact
+          run-id: ${{ inputs.production_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run publish -- --root approved-artifact --platforms "${{ inputs.platforms }}"
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          TIKTOK_ACCESS_TOKEN: ${{ secrets.TIKTOK_ACCESS_TOKEN }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+          INSTAGRAM_VIDEO_URL: ${{ inputs.instagram_video_url }}
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: social-publish-results-${{ github.run_id }}
+          path: publish-results.json
+          if-no-files-found: warn
