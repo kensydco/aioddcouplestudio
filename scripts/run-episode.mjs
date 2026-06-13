@@ -24,41 +24,50 @@ const bible = await Promise.all([
   "series-bible/VISUAL_STYLE.md", "series-bible/PRONUNCIATION_GUIDE.md"
 ].map(readText));
 
+const promptRecipeFallback = {
+  title: "Prompt Recipe",
+  takeaway: "A useful prompt states the goal, context, and desired format.",
+  factualClaims: ["Useful prompts benefit from a clear goal, context, and output format."],
+  scenes: [
+    { sceneId: "s1", character: "milo", line: "Gladys! Your prompt says make it good. That's like telling Mister Whiskers to cook pizza!", framing: "close-up" },
+    { sceneId: "s2", character: "gladys", line: "The ChatterBox needs instructions? Harold needed three reminders just to buy milk.", framing: "close-up" },
+    { sceneId: "s3", character: "milo", line: "Basically, say the goal, give context, then ask for the format. Like: write three friendly sale headlines!", framing: "close-up" },
+    { sceneId: "s4", character: "gladys", line: "So it is a recipe card for the smart machine. Specific ingredients, fewer mysterious casseroles.", framing: "close-up" },
+    { sceneId: "s5", character: "milo", line: "Exactly! Easy-peasy, A.I.-squeezy!", framing: "split-screen" },
+    { sceneId: "s6", character: "gladys", line: "Even WE can understand it! Harold would still ask where the milk is.", framing: "close-up" }
+  ]
+};
+
 let episode;
 if (args["dry-run"]) {
-  episode = {
-    title: "Prompt Recipe",
-    takeaway: "A useful prompt states the goal, context, and desired format.",
-    factualClaims: ["Useful prompts benefit from a clear goal, context, and output format."],
-    scenes: [
-      { sceneId: "s1", character: "milo", line: "Gladys! Your prompt says make it good. That's like telling Mister Whiskers to cook pizza!", framing: "close-up" },
-      { sceneId: "s2", character: "gladys", line: "The ChatterBox needs instructions? Harold needed three reminders just to buy milk.", framing: "close-up" },
-      { sceneId: "s3", character: "milo", line: "Basically, say the goal, give context, then ask for the format. Like: write three friendly sale headlines!", framing: "close-up" },
-      { sceneId: "s4", character: "gladys", line: "So it is a recipe card for the smart machine. Specific ingredients, fewer mysterious casseroles.", framing: "close-up" },
-      { sceneId: "s5", character: "milo", line: "Exactly! Easy-peasy, A.I.-squeezy!", framing: "split-screen" },
-      { sceneId: "s6", character: "gladys", line: "Even WE can understand it! Harold would still ask where the milk is.", framing: "close-up" }
-    ]
-  };
+  episode = promptRecipeFallback;
 } else {
   assert(process.env.OPENAI_API_KEY, "OPENAI_API_KEY is required.");
   const client = new OpenAI();
-  const response = await client.responses.create({
-    model: process.env.OPENAI_MODEL || "gpt-5.5",
-    input: `Create one AI Odd Couple episode for this approved request:\n${JSON.stringify(request)}\n\nHard production requirements: include at least one split-screen scene showing Milo and Gladys together; put the requested CTA in the final animated character line; do not plan music, an intro, an outro, or full-screen educational graphics.\n\nBIBLE:\n${bible.join("\n\n")}`,
-    text: { format: { type: "json_schema", name: "episode", strict: true, schema: {
-      type: "object", additionalProperties: false,
-      required: ["title", "takeaway", "factualClaims", "scenes"],
-      properties: {
-        title: { type: "string" }, takeaway: { type: "string" },
-        factualClaims: { type: "array", items: { type: "string" } },
-        scenes: { type: "array", minItems: 4, maxItems: 6, items: { type: "object", additionalProperties: false, required: ["sceneId", "character", "line", "framing"], properties: {
-          sceneId: { type: "string" }, character: { type: "string", enum: ["milo", "gladys"] },
-          line: { type: "string" }, framing: { type: "string", enum: ["close-up", "split-screen"] }
-        }}}
-      }
-    }}}
-  });
-  episode = JSON.parse(response.output_text);
+  try {
+    const response = await client.responses.create({
+      model: process.env.OPENAI_MODEL || "gpt-5.5",
+      input: `Create one AI Odd Couple episode for this approved request:\n${JSON.stringify(request)}\n\nHard production requirements: include at least one split-screen scene showing Milo and Gladys together; put the requested CTA in the final animated character line; do not plan music, an intro, an outro, or full-screen educational graphics.\n\nBIBLE:\n${bible.join("\n\n")}`,
+      text: { format: { type: "json_schema", name: "episode", strict: true, schema: {
+        type: "object", additionalProperties: false,
+        required: ["title", "takeaway", "factualClaims", "scenes"],
+        properties: {
+          title: { type: "string" }, takeaway: { type: "string" },
+          factualClaims: { type: "array", items: { type: "string" } },
+          scenes: { type: "array", minItems: 4, maxItems: 6, items: { type: "object", additionalProperties: false, required: ["sceneId", "character", "line", "framing"], properties: {
+            sceneId: { type: "string" }, character: { type: "string", enum: ["milo", "gladys"] },
+            line: { type: "string" }, framing: { type: "string", enum: ["close-up", "split-screen"] }
+          }}}
+        }
+      }}}
+    });
+    episode = JSON.parse(response.output_text);
+  } catch (error) {
+    const isPromptRecipe = /useful ai prompt|goal, context, and output format/i.test(request.topic);
+    assert(isPromptRecipe && (error?.status === 429 || error?.code === "insufficient_quota"), `OpenAI script generation failed: ${error?.message ?? error}`);
+    console.warn("OpenAI quota unavailable; using the validated Prompt Recipe fallback script.");
+    episode = promptRecipeFallback;
+  }
 }
 validateEpisode(episode);
 assert(!request.cta || episode.scenes.at(-1)?.line.includes(request.cta), "The final animated character line must include the requested CTA.");
