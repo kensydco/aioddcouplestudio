@@ -33,6 +33,13 @@ if (process.env.OPENAI_API_KEY) {
   const response = await fetch("https://api.openai.com/v1/models", { headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` } });
   console.log(`${response.ok ? "PASS" : "BLOCKED"} provider OpenAI authentication`);
   failed ||= !response.ok;
+  if (response.ok) {
+    const configuredModel = process.env.OPENAI_MODEL || "gpt-5.5";
+    const models = (await response.json()).data ?? [];
+    const available = models.some((model) => model.id === configuredModel);
+    console.log(`${available ? "PASS" : "BLOCKED"} provider OpenAI model ${configuredModel}`);
+    failed ||= !available;
+  }
 }
 if (process.env.HEYGEN_API_KEY) {
   const response = await fetch("https://api.heygen.com/v2/avatars", { headers: { "X-Api-Key": process.env.HEYGEN_API_KEY } });
