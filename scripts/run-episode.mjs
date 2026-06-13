@@ -5,6 +5,9 @@ import OpenAI from "openai";
 import { ROOT, CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, assert, ensureDir, exists, readText, slugify, spokenWords, validateEpisode, writeJson } from "./lib.mjs";
 
 const args = Object.fromEntries(process.argv.slice(2).map((arg, i, all) => arg.startsWith("--") ? [arg.slice(2), !all[i + 1] || all[i + 1].startsWith("--") ? true : all[i + 1]] : []).filter(Boolean));
+const assertResponseOk = async (response, label) => {
+  if (!response.ok) throw new Error(`${label}: ${await response.text()}`);
+};
 const topicFile = path.resolve(args.topic ?? "");
 assert(args.topic, "Usage: npm run episode -- --topic topics/approved/<topic>.json [--dry-run]");
 const request = JSON.parse(await fs.readFile(topicFile, "utf8"));
@@ -114,7 +117,7 @@ if (!args["dry-run"]) {
       method: "POST", headers: { "X-Api-Key": process.env.HEYGEN_API_KEY, "Content-Type": "application/json" },
       body: JSON.stringify({ video_inputs: [{ character: { type: "avatar", avatar_id: character.avatarId, avatar_style: "normal" }, voice: { type: "text", voice_id: character.voiceId, input_text: scene.line, speed: character.speed }, background: { type: "image", url: process.env.HEYGEN_STUDIO_BACKGROUND_URL } }], dimension: { width: 1080, height: 1920 }, title: `${slug}-${scene.sceneId}` })
     });
-    assert(response.ok, `HeyGen generation failed: ${await response.text()}`);
+    await assertResponseOk(response, "HeyGen generation failed");
     manifest.generatedClips.push({ sceneId: scene.sceneId, character: scene.character, videoId: (await response.json()).data.video_id });
     if (scene.framing === "split-screen") {
       const reactionCharacterName = scene.character === "milo" ? "gladys" : "milo";
@@ -126,7 +129,7 @@ if (!args["dry-run"]) {
         method: "POST", headers: { "X-Api-Key": process.env.HEYGEN_API_KEY, "Content-Type": "application/json" },
         body: JSON.stringify({ video_inputs: [{ character: { type: "avatar", avatar_id: reactionCharacter.avatarId, avatar_style: "normal" }, voice: { type: "text", voice_id: reactionCharacter.voiceId, input_text: reactionText, speed: reactionCharacter.speed }, background: { type: "image", url: process.env.HEYGEN_STUDIO_BACKGROUND_URL } }], dimension: { width: 1080, height: 1920 }, title: `${slug}-${scene.sceneId}-reaction` })
       });
-      assert(reactionResponse.ok, `HeyGen reaction generation failed: ${await reactionResponse.text()}`);
+      await assertResponseOk(reactionResponse, "HeyGen reaction generation failed");
       manifest.generatedClips.push({ sceneId: scene.sceneId, character: reactionCharacterName, role: "reaction", videoId: (await reactionResponse.json()).data.video_id });
     }
   }
@@ -137,7 +140,7 @@ if (!args["dry-run"]) {
     let status;
     for (let attempt = 0; attempt < 90; attempt += 1) {
       const response = await fetch(`https://api.heygen.com/v1/video_status.get?video_id=${clip.videoId}`, { headers: { "X-Api-Key": process.env.HEYGEN_API_KEY } });
-      assert(response.ok, `HeyGen status failed: ${await response.text()}`);
+      await assertResponseOk(response, "HeyGen status failed");
       status = (await response.json()).data;
       if (status.status === "completed") break;
       assert(status.status !== "failed", `HeyGen clip failed: ${status.error ?? clip.videoId}`);
