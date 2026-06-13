@@ -8,6 +8,7 @@ const args = Object.fromEntries(process.argv.slice(2).map((arg, i, all) => arg.s
 const assertResponseOk = async (response, label) => {
   if (!response.ok) throw new Error(`${label}: ${await response.text()}`);
 };
+const formatProviderError = (error) => typeof error === "string" ? error : JSON.stringify(error);
 const topicFile = path.resolve(args.topic ?? "");
 assert(args.topic, "Usage: npm run episode -- --topic topics/approved/<topic>.json [--dry-run]");
 const request = JSON.parse(await fs.readFile(topicFile, "utf8"));
@@ -143,7 +144,7 @@ if (!args["dry-run"]) {
       await assertResponseOk(response, "HeyGen status failed");
       status = (await response.json()).data;
       if (status.status === "completed") break;
-      assert(status.status !== "failed", `HeyGen clip failed: ${status.error ?? clip.videoId}`);
+      assert(status.status !== "failed", `HeyGen clip failed: ${formatProviderError(status.error ?? clip.videoId)}`);
       await new Promise((resolve) => setTimeout(resolve, 20000));
     }
     assert(status?.status === "completed" && status.video_url, `Timed out waiting for ${clip.videoId}`);
