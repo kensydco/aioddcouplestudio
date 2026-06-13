@@ -7,7 +7,7 @@ on:
         description: Successful Produce approved episode run ID
         required: true
       platforms:
-        description: Comma-separated platforms: youtube,tiktok,instagram
+        description: "Comma-separated platforms: youtube,tiktok,instagram"
         required: true
         default: youtube
       instagram_video_url:
