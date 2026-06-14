@@ -8,7 +8,7 @@
 
 | Field | Value |
 |-------|-------|
-| **HeyGen Avatar ID** | `13d2fb313843409f90480c856b31f986` |
+| **HeyGen Avatar ID** | `e9a00cac1e934e6f80bd550fd2803d10` |
 | **Voice ID** | `F08jhUNBtlE8Gs2Bnrj1` |
 | **Reference assets** | `assets/characters/milo/` |
 | **Voice speed** | 1.15× (fast, energetic) |

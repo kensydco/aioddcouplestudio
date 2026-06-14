@@ -96,7 +96,7 @@ Run this before approving any script:
 - [ ] Episode ends with warmth and unity?
 - [ ] Milo's catchphrase OR Harold callback in the resolution?
 - [ ] Total estimated runtime is 28–45 seconds?
-- [ ] At least one scene visibly shows animated Milo and Gladys together?
+- [ ] At least one scene visibly shows Milo and Gladys together, with the speaker animated and the listener shown as a static picture-in-picture?
 - [ ] Every spoken line is delivered by an animated character?
 - [ ] No music or standalone intro/outro?
 - [ ] Full-screen educational graphics replacing characters total 8 seconds or less?

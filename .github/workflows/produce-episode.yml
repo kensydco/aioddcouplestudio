@@ -25,6 +25,12 @@ on:
       ad_hoc_cta:
         description: Optional CTA used only with produce_ad_hoc
         required: false
+      ad_hoc_background_url:
+        description: Public URL for a generated background based on the approved script
+        required: false
+      ad_hoc_background_prompt:
+        description: Prompt used to generate the episode background
+        required: false
 
 permissions:
   contents: read
@@ -49,12 +55,13 @@ jobs:
           AD_HOC_TOPIC: ${{ inputs.ad_hoc_topic }}
           AD_HOC_AUDIENCE: ${{ inputs.ad_hoc_audience }}
           AD_HOC_CTA: ${{ inputs.ad_hoc_cta }}
+          AD_HOC_BACKGROUND_URL: ${{ inputs.ad_hoc_background_url }}
+          AD_HOC_BACKGROUND_PROMPT: ${{ inputs.ad_hoc_background_prompt }}
       - run: npm run readiness
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
-          HEYGEN_STUDIO_BACKGROUND_URL: ${{ secrets.HEYGEN_STUDIO_BACKGROUND_URL }}
       - if: inputs.mode == 'produce' || inputs.mode == 'produce_ad_hoc'
         id: episode
         run: npm run episode -- --topic "${{ inputs.mode == 'produce_ad_hoc' && 'topics/runtime/ad-hoc.json' || inputs.topic_file }}"
@@ -62,7 +69,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-5.5' }}
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
-          HEYGEN_STUDIO_BACKGROUND_URL: ${{ secrets.HEYGEN_STUDIO_BACKGROUND_URL }}
       - if: always()
         id: artifact
         uses: actions/upload-artifact@v4

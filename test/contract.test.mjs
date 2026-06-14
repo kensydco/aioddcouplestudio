@@ -1,9 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, reactionWordCount, spokenWords, validateEpisode } from "../scripts/lib.mjs";
+import fs from "node:fs";
+import { CHARACTERS, MAX_EPISODE_DURATION_SECONDS, MAX_FULL_SCREEN_EDUCATION_GRAPHICS_SECONDS, spokenWords, validateEpisode } from "../scripts/lib.mjs";
 
 test("locked provider IDs remain unchanged", () => {
-  assert.equal(CHARACTERS.milo.avatarId, "13d2fb313843409f90480c856b31f986");
+  assert.equal(CHARACTERS.milo.avatarId, "e9a00cac1e934e6f80bd550fd2803d10");
   assert.equal(CHARACTERS.gladys.voiceId, "fb0de32da8c4499f9b6e27245b8794c1");
 });
 
@@ -23,7 +24,7 @@ test("episode duration ceiling is forty-five seconds", () => {
   assert.equal(MAX_EPISODE_DURATION_SECONDS, 45);
 });
 
-test("validator requires a scene with both animated characters", () => {
+test("validator requires a scene showing both characters", () => {
   assert.throws(() => validateEpisode({
     takeaway: "x",
     scenes: [
@@ -35,7 +36,9 @@ test("validator requires a scene with both animated characters", () => {
   }), /together/);
 });
 
-test("reaction performances are long enough to cover split-screen interactions", () => {
-  assert.equal(reactionWordCount("Short line"), 20);
-  assert.equal(reactionWordCount("one two three four five six"), 24);
+test("production source prohibits logos and animated listener reactions", () => {
+  const source = fs.readFileSync(new URL("../scripts/run-episode.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /episode-logo|branding\/logo|reactionResponse|role: "reaction"/);
+  assert.match(source, /class="clip listener/);
+  assert.match(source, /mouthMovementPolicy: "speaking_character_only"/);
 });

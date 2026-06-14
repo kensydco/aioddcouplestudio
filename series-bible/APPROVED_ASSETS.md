@@ -10,7 +10,7 @@
 
 | Character | HeyGen Avatar ID | Voice ID | Speed | Status |
 |-----------|------------------|----------|-------|--------|
-| **Milo** | `13d2fb313843409f90480c856b31f986` | `F08jhUNBtlE8Gs2Bnrj1` | 1.15× | ✅ |
+| **Milo** | `e9a00cac1e934e6f80bd550fd2803d10` | `F08jhUNBtlE8Gs2Bnrj1` | 1.15× | ✅ |
 | **Gladys** | `5917b84d9e224e46918a61245456efbe` | `fb0de32da8c4499f9b6e27245b8794c1` | 0.92× | ✅ |
 
 These are the **only** approved character identities. Never regenerate from text prompts. Never substitute.
@@ -29,15 +29,16 @@ These are the **only** approved character identities. Never regenerate from text
 
 | Asset | Path | Status |
 |-------|------|--------|
-| Podcast studio (default) | `assets/backgrounds/studio.png` | ✅ approved empty-studio plate; HeyGen may crop it for 9:16 |
+| Script-specific generated backgrounds | `assets/backgrounds/generated/` | ✅ required per episode |
+| Podcast studio (default) | `assets/backgrounds/studio.png` | ⛔ DO NOT USE |
 | Studio (split-screen variant) | `assets/backgrounds/studio-split.png` | 🟡 optional |
 
 ## 4. Branding
 
 | Asset | Spec | Path | Status |
 |-------|------|------|--------|
-| Logo (primary) | approved primary logo | `assets/branding/logo.png` | ✅ |
-| Logo bug (corner) | approved black-background logo, rendered at ~70% opacity | `assets/branding/logo-bug.png` | ✅ |
+| Logo (primary) | retained archive asset; prohibited in episodes | `assets/branding/logo.png` | ⛔ |
+| Logo bug (corner) | retained archive asset; prohibited in episodes | `assets/branding/logo-bug.png` | ⛔ |
 | Intro sting | ~1.5–2s, 1080×1920 | `assets/branding/intro.mp4` | 🟡 |
 | Outro lockup | ~2s, 1080×1920 | `assets/branding/outro.mp4` | 🟡 |
 | Color palette | see `VISUAL_STYLE.md` §4 | — | ✅ |
@@ -79,7 +80,7 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 | Dependency | Requirement | Status |
 |------------|-------------|--------|
 | HeyGen account access | API key in `HEYGEN_API_KEY` env var | 🟡 verify |
-| `HEYGEN_STUDIO_BACKGROUND_URL` | public raw GitHub URL for approved studio plate | ✅ configured in GitHub Actions |
+| Episode background URL | public URL for a script-specific generated background | 🟡 required per production request |
 | HyperFrames | `0.6.95`; lint and validate verified | ✅ |
 | Node.js | `24` in GitHub Actions | ✅ |
 | FFmpeg | installed by GitHub Actions workflow | ✅ |
@@ -94,6 +95,7 @@ Place font files in `assets/branding/fonts/`. Do not substitute without updating
 | 2026-06 | Initial registry created; provider IDs locked | — |
 | 2026-06-13 | Approved supplied background, logos, theme song, and hosted runtime route | Codex |
 | 2026-06-13 | Prohibited music and intro/outro; required animated interaction scene; capped full-screen educational graphics at 8 seconds | Codex |
+| 2026-06-13 | Replaced Milo avatar; prohibited standard background and logos; limited mouth movement to speaking characters; required script-specific generated backgrounds | Codex |
 
 ---
 

@@ -73,7 +73,7 @@ Every episode MUST follow this four-beat structure:
 - Include a Harold reference in every episode
 - Optimize the first 3 seconds for maximum hook — this determines retention
 - Use animated locked character performances for every line
-- Show animated Milo and Gladys together in at least one scene
+- Show Milo and Gladys together in at least one scene, with the speaker animated and the listener shown as a static picture-in-picture
 - Keep full-screen educational graphics that replace the characters to 8 seconds or less
 
 ### What We NEVER Do

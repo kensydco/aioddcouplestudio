@@ -13,17 +13,17 @@
 
 ## 2. Character placement & scale
 
-- **Alternating close-ups** are the default. Both-on-screen only via split-screen for the designated interaction/reaction.
-- At least one scene must visibly show animated Milo and Gladys together.
-- Static character images do not satisfy the animated-character requirement.
+- **Alternating close-ups** are the default. For the designated interaction, keep the speaking character full-frame and show the listener as a static picture-in-picture.
+- At least one scene must visibly show Milo and Gladys together.
+- Only the speaking character may have mouth movement. The listening character must use a static picture-in-picture in the interaction scene.
 - **Milo:** screen **left**, looking right. **Gladys:** screen **right**, looking left. Keep this consistent so viewers subconsciously track who's who.
 - Head size consistent across cuts (eyes land roughly on the upper-third line). No jarring scale jumps between clips.
-- Split-screen: clean vertical divider, 50/50, Milo left / Gladys right.
+- Interaction picture-in-picture: static listener opposite the speaking character, kept clear of faces and captions.
 
 ## 3. Backgrounds
 
-- Default: the approved podcast studio — dark acoustic-foam walls, glowing red **ON AIR** sign, broadcast mics, mixing boards, water bottles, warm overhead key light.
-- Background stays consistent episode to episode. Supporting graphics (diagrams, Milo's "MS Paint" drawings) appear as overlays, not background swaps.
+- Default: one character-free generated background based on the approved episode script.
+- Generate one character-free background from the approved script before each episode and use it consistently throughout that episode.
 
 ## 4. Color palette
 
@@ -61,7 +61,7 @@
 - Concept graphics (diagrams, Milo's deliberately-bad "MS Paint" sketches, Gladys's recipe cards) slide in during the 16–24s explanation beat, then out.
 - Full-screen educational graphics that replace the characters may total no more than **8 seconds** per episode. Default to zero seconds.
 - Graphics overlaid while animated characters remain visible do not count toward the 8-second limit.
-- Logo bug: small, top-left or top-right, persistent, low opacity (~70%).
+- Do not display a logo or logo bug.
 
 ## 8. Intro / outro
 
@@ -98,7 +98,7 @@ Pick at most one so the single concept stays the star.
 - No more than one primary split-screen per episode.
 - No music.
 - No more than 8 seconds of full-screen educational graphics that replace the characters.
-- No episode without at least one animated Milo-and-Gladys interaction scene.
+- No episode without at least one Milo-and-Gladys interaction scene.
 
 ---
 

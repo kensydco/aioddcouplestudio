@@ -2,5 +2,7 @@
   "topic": "What makes a useful AI prompt?",
   "audience": "Small-business owners who are curious about AI",
   "cta": "Even WE can understand it!",
+  "backgroundUrl": "https://raw.githubusercontent.com/kensydco/aioddcouplestudio/main/assets/backgrounds/generated/prompt-recipe-small-business.png",
+  "backgroundPrompt": "A character-free small-business workspace that visually supports a lesson about goal, context, and output format.",
   "approved": true
 }

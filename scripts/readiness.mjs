@@ -8,10 +8,7 @@ const requiredFiles = [
   "series-bible/APPROVED_ASSETS.md", "assets/characters/AI_Odd_Couple.webp",
   "templates/ai-odd-couple-episode/index.html"
 ];
-const optionalProductionAssets = [
-  "assets/backgrounds/studio.png", "assets/branding/logo.png",
-  "assets/branding/logo-bug.png"
-];
+const optionalProductionAssets = ["assets/avatars/Milo.png", "assets/avatars/Gladys.png"];
 
 let failed = false;
 for (const file of requiredFiles) {
@@ -24,7 +21,7 @@ for (const file of optionalProductionAssets) {
   console.log(`${ok ? "PASS" : "BLOCKED"} production asset ${file}`);
   failed ||= !ok;
 }
-for (const name of ["OPENAI_API_KEY", "HEYGEN_API_KEY", "HEYGEN_STUDIO_BACKGROUND_URL"]) {
+for (const name of ["OPENAI_API_KEY", "HEYGEN_API_KEY"]) {
   const ok = Boolean(process.env[name]);
   console.log(`${ok ? "PASS" : "BLOCKED"} secret ${name}`);
   failed ||= !ok;
@@ -45,12 +42,6 @@ if (process.env.HEYGEN_API_KEY) {
   const response = await fetch("https://api.heygen.com/v2/avatars", { headers: { "X-Api-Key": process.env.HEYGEN_API_KEY } });
   console.log(`${response.ok ? "PASS" : "BLOCKED"} provider HeyGen authentication`);
   failed ||= !response.ok;
-}
-if (process.env.HEYGEN_STUDIO_BACKGROUND_URL) {
-  const response = await fetch(process.env.HEYGEN_STUDIO_BACKGROUND_URL, { method: "HEAD" });
-  const ok = response.ok && response.headers.get("content-type")?.startsWith("image/");
-  console.log(`${ok ? "PASS" : "BLOCKED"} provider HeyGen background URL`);
-  failed ||= !ok;
 }
 for (const cmd of [["node", ["--version"]], ["ffmpeg", ["-version"]], ["ffprobe", ["-version"]]]) {
   const result = spawnSync(cmd[0], cmd[1], { stdio: "ignore" });
